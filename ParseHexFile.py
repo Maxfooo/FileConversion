@@ -9,7 +9,9 @@ class ParseHexFile():
     
     def __init__(self, hexFile):
         self.hexFile = hexFile
-        self.base = 16
+        self.bitDigits = 4
+        self.width = 8
+        self.data_digits = self.width / self.bitDigits
         self.hexContent = None
         self.hexLen = []
         self.hexAddr = []
@@ -18,28 +20,25 @@ class ParseHexFile():
         self.hexData = []
         self.hexCS = []
         self.hexTypeEOF = '01'
-        self.hexFileSettings()
         self.readHexFile()
-        self.sortHexContents()
+        self.parse()
     
-    def hexFileSettings(self, depth=16, width=8, address_radix='HEX', data_radix='HEX', fillZeros=0):
-        self.depth = depth
+    def setByteWidth(self, width):
         self.width = width
-        self.address_radix = address_radix
-        self.data_radix = data_radix
-        self.data_digits = self.base / width
-        self.fillZeros = fillZeros
+        self.data_digits = self.width / self.bitDigits
+        self.parse()
     
     def readHexFile(self):
-            try:
-                if isinstance(self.hexFile, str):
-                    self.hexContent = self.hexFile
-                else:
-                    self.hexContent = self.hexFile.read()
-            except:
-                pass
+        try:
+            if isinstance(self.hexFile, str):
+                self.hexContent = self.hexFile
+            else:
+                self.hexContent = self.hexFile.read()
+                self.hexFile.close()
+        except:
+            pass
 
-    def sortHexContents(self):
+    def parse(self):
         hex_format_expression = r':(\w{2})(\w{4})(\w{2})(\w*)(\w{2})'
         self.hexFields = re.findall(hex_format_expression,self.hexContent)
         
