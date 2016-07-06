@@ -8,7 +8,7 @@ def arduinoCode(data_width, data_array, format_comment):
     codeStr = """
     #include <Wire.h>
     
-    #Define DATA_WIDTH %d
+    #define DATA_WIDTH %d
     
     byte data[DATA_WIDTH] = %s
     
