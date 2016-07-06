@@ -25,12 +25,11 @@ class HexClass(object):
         self.mifApp.mainloop()
         mifParams = self.mifApp.getParameters()
         mifTop.destroy()
-        
-        self.depth = mifParams[0]
-        self.width = mifParams[0]
-        self.address_radix = mifParams[0]
-        self.data_radix = mifParams[0]
-        self.fillZeros = mifParams[0]
+        self.depth = int(mifParams[0])
+        self.width = int(mifParams[1])
+        self.address_radix = int(mifParams[2])
+        self.data_radix = int(mifParams[3])
+        self.fillZeros = int(mifParams[4])
     
     def convert(self, toFileType):
         self.fio.openFile(exten=DOT_HEX, ftypes=[('Hex files', DOT_HEX), ('all files', DOT_ALL)])
@@ -47,7 +46,7 @@ class HexClass(object):
             try:
                 self.hexToMif(toFile)
             except:
-                self.fio.errorPopup('Please fill in Hex parameters!')
+                self.fio.errorPopup('Something\'s wrong with the Mif parameters!')
         elif toFileType == DOT_INO:
             self.hexToIno(toFile)
         
@@ -56,31 +55,27 @@ class HexClass(object):
     def hexToMif(self, mifFile):
         self.fetchMifParams()
         self.phf.setByteWidth(self.width)
-        mifFile.write('DEPTH = {};\nWIDTH = {};\n'.format(self.depth,self.width) +
-                           'ADDRESS_RADIX = {};\n'.format(self.address_radix) +
-                           'DATA_RADIX = {};\n'.format(self.data_radix) +
+        mifFile.write('DEPTH = {};\nWIDTH = {};\n'.format(str(self.depth),str(self.width)) +
+                           'ADDRESS_RADIX = {};\n'.format(str(self.address_radix)) +
+                           'DATA_RADIX = {};\n'.format((self.data_radix)) +
                            'CONTENT\nBEGIN\n')
-        
 
         mifLineCount = 0
-        for i in range(len(self.hexLen)):
+        for i in range(len(self.phf.hexLen)):
             tempAddress = []
-            for j in range(int(self.hexLen[i],self.data_radix)):
-                addr = int(self.hexAddr[i],self.data_radix)+j
+            for j in range(int(self.phf.hexLen[i],self.data_radix)):
+                addr = int(self.phf.hexAddr[i],self.data_radix)+j
                 tempAddress.append(addr)
                 if addr > mifLineCount:
                     mifLineCount = addr
             for k in range(len(tempAddress)):
                 mifFile.write(str(hex(tempAddress[k])).replace('0x','') +
-                                   '\t:\t' + str(self.hexData[i][k]) + ';\n')
-        
-        
+                                   '\t:\t' + str(self.phf.hexData[i][k]) + ';\n')
         # Fill in the rest of the addresses with 00
         if mifLineCount < int(self.depth) and self.fillZeros == 1:
             for i in range(int(self.depth) - mifLineCount):
                 mifFile.write(str(hex(mifLineCount + i + 1)).replace('0x','') +
                                    '\t:\t' + '00' + ';\n')
-        
         mifFile.write('END;')
         mifFile.close()
         
@@ -90,8 +85,8 @@ class HexClass(object):
             format = ['dpl', 'dph', 'ndb', 'dat']
         else:
             format = dataArrFormat
+        print(2)
         orgHexData = self.phf.structureHexContents(format)
-        print(orgHexData)
         arrayStr, arrLen = lst2d2str(orgHexData, pad=False)
         print(3)
 
