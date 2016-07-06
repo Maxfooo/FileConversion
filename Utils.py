@@ -44,12 +44,11 @@ def len2d(lst):
 
     
 def lst2d2str(lst, arrayType = 'byte', arrayName = 'data', radix='hex', bits=8, pad=True, str2D = False, initArr = False):
-    print(1.1)
+
     rc = RadixConversion()
-    print(1.11)
-    print(lst)
+
     lst2dLen = len2d(lst) 
-    print(1.2)
+
     if arrayType == None:
         arrOpen = "["
         arrClose = "]"
@@ -64,7 +63,7 @@ def lst2d2str(lst, arrayType = 'byte', arrayName = 'data', radix='hex', bits=8, 
             arrayStr = "{0} {1}".format(arrayType, arrayName)
         else:
             arrayStr = arrOpen
-    print(1.3)
+
     if initArr:
         if pad:
             rowLen = 0
@@ -79,13 +78,13 @@ def lst2d2str(lst, arrayType = 'byte', arrayName = 'data', radix='hex', bits=8, 
                 arrayStr = arrayStr + "{1}{0}{2}".format(lst2dLen, arrOpen, arrClose)
         else:
             arrayStr = arrayStr + "{1}{0}{2}".format(lst2dLen, arrOpen, arrClose)
-        print(1.4)    
+   
         arrayStr = arrayStr + " = {}".format(arrOpen)
     
     for i, line in enumerate(lst):
-        print(1.5)
+
         for j, d in enumerate(line):
-            print(1.6)
+
             if radix == 'hex':
                 data = "0x" + str(d) 
             elif radix == 'bin':
@@ -101,7 +100,7 @@ def lst2d2str(lst, arrayType = 'byte', arrayName = 'data', radix='hex', bits=8, 
                     
             else:
                 arrayStr = arrayStr + ", {}".format(data)
-        print(1.7)
+
         if pad:
             j = rowLen - len(line)
             if j > 0:
@@ -111,7 +110,7 @@ def lst2d2str(lst, arrayType = 'byte', arrayName = 'data', radix='hex', bits=8, 
                     elif radix == 'bin':
                         data = "0x" + rc.hex2bin(str(0), bits=8)
                     arrayStr = arrayStr + ", {}".format(data)
-        print(1.8)
+
         if str2D:
             if i < len(lst)-1:            
                 arrayStr = arrayStr + "{}, ".format(arrClose)
