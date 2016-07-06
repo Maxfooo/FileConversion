@@ -80,15 +80,12 @@ class HexClass(object):
         mifFile.close()
         
     def hexToIno(self, inoFile, dataArrFormat = None, printArr = False):
-        print(1)
         if dataArrFormat == None:
             format = ['dpl', 'dph', 'ndb', 'dat']
         else:
             format = dataArrFormat
-        print(2)
         orgHexData = self.phf.structureHexContents(format)
         arrayStr, arrLen = lst2d2str(orgHexData, pad=False)
-        print(3)
 
         inoFile.write(arduinoCode(arrLen, arrayStr, str(format) + " (repeated for however many hex lines where made)"))
         
