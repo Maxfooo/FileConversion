@@ -18,6 +18,7 @@ def arduinoCode(data_width, data_array, format_comment):
     byte lineCounter = 0;
     byte packetNumBytes = 0;
     byte checkSum = 0;
+    byte sendByte = 0;
     int array_ptr = 0;
     
     void setup() {
@@ -79,19 +80,34 @@ def arduinoCode(data_width, data_array, format_comment):
       
         
       case '2':
-          Wire.beginTransmission(0x5A); // transmit to device #8
-          Wire.write(0x30);
-          Wire.write(0x00);
-          Wire.write(0x00);
-          Wire.write(0x01);
-          Wire.write(0x03);
-          checkSum = 0x30+0x00+0x00+0x01+0x03;
-          Wire.write(-checkSum);
-          Wire.endTransmission();    // stop transmitting
-          Wire.requestFrom(0x5A, 3);    // request 6 bytes from slave device #8
-          while (Wire.available()) { // slave may send less than requested
-            char c = Wire.read(); // receive a byte as character
-            
+        checkSum = 0;
+        Wire.beginTransmission(0x5A); // transmit to device #8
+        
+        sendByte = 0x30;
+        Wire.write(sendByte);
+        checkSum = checkSum + sendByte;
+        
+        sendByte = 0x00;
+        Wire.write(sendByte);
+        checkSum = checkSum + sendByte;
+        
+        sendByte = 0x00;
+        Wire.write(sendByte);
+        checkSum = checkSum + sendByte;
+        
+        sendByte = 0x01;
+        Wire.write(sendByte);
+        checkSum = checkSum + sendByte;
+        
+        sendByte = 0x03;
+        Wire.write(sendByte);
+        checkSum = checkSum + sendByte;
+        
+        Wire.write(-checkSum);
+        Wire.endTransmission();    // stop transmitting
+        Wire.requestFrom(0x5A, 3);    // request 6 bytes from slave device #8
+        while (Wire.available()) { // slave may send less than requested
+          char c = Wire.read(); // receive a byte as character
           }
             
         x = 0;
