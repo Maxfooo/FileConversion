@@ -5,7 +5,7 @@ Created on Jul 5, 2016
 '''
 
 from ParseHexFile import ParseHexFile
-from ProgramBoronArduinoCode import arduinoCode
+from arduinoCode import arduinoCode
 from Utils import lst2d2str
 from FileIO import FileIO as FIO
 from MifUI import MifUI
