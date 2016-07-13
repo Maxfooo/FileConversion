@@ -55,7 +55,7 @@ class ConversionUI(Frame):
         self.fromListbox.bind('<<ListboxSelect>>', self.updateToListbox)
 
     def convertFile(self):
-        
+
         if self.fromFileType == None:
             self.logText.set('Please select a file to open.')
             self.fileIO.errorPopup('Please select a file to open.')
@@ -63,7 +63,7 @@ class ConversionUI(Frame):
             self.logText.set('Please select a file to be saved to.')
             self.fileIO.errorPopup('Please select a file to be saved to.')
         else:
-            
+
             try:
                 self.AC.convert(self.fromFileType, self.toFileType)
                 if self.AC.wasSuccessful():
@@ -82,7 +82,7 @@ class ConversionUI(Frame):
 
         for i in range(len(self.conversionTable[self.fromFileType])):
             self.toListbox.insert(i, self.conversionTable[self.fromFileType][i])
-        
+
         self.convertButton.config(state=DISABLED)
         self.toListbox.bind('<<ListboxSelect>>', self.setToFileType)
 
@@ -90,7 +90,7 @@ class ConversionUI(Frame):
          sel = self.toListbox.curselection()
          self.toFileType = self.toListbox.get(sel)
          self.logText.set('{} selected to save to'.format(self.toFileType))
-         
+
          # Enable convert button
          self.convertButton.config(state=ACTIVE)
 
