@@ -11,7 +11,7 @@ from FILE_TYPES import *
 
 
 class AvailableConversions(object):
-    
+
     def __init__(self):
         self.rc = RadixConversion()
         self.fio = FIO()
@@ -19,8 +19,8 @@ class AvailableConversions(object):
         self.hexClass = HexClass()
         self.conversionTable.update(self.hexClass.hexConversionTable)
         self.conversionComplete = False
-        
-        
+
+
     def check(self, fromFileType, toFileType):
         if fromFileType in self.conversionTable.keys():
             if toFileType in self.conversionTable[fromFileType]:
@@ -29,7 +29,7 @@ class AvailableConversions(object):
                 return False
         else:
             return False
-    
+
     def convert(self, fromFileType, toFileType):
         if self.check(fromFileType, toFileType):
             if fromFileType == DOT_HEX:
@@ -38,19 +38,19 @@ class AvailableConversions(object):
         else:
             self.fileIO.errorPopup('A conversion from {0} to {1} does not exist'.format(self.fromFileType, self.toFileType))
             self.conversionComplete = False
-    
-    
+
+
     def getConversionTable(self):
         return self.conversionTable
-    
+
     def wasSuccessful(self):
         return self.conversionComplete
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
